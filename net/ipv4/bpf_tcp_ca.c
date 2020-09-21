@@ -156,8 +156,8 @@ static const struct bpf_func_proto bpf_tcp_send_ack_proto = {
 	/* In case we want to report error later */
 	.ret_type	= RET_INTEGER,
 	.arg1_type	= ARG_PTR_TO_BTF_ID,
+	.arg1_btf_id	= &tcp_sock_id,
 	.arg2_type	= ARG_ANYTHING,
-	.btf_id		= &tcp_sock_id,
 };
 
 static const struct bpf_func_proto *
