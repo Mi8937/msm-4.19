@@ -3565,9 +3565,6 @@ static int check_func_arg(struct bpf_verifier_env *env, u32 arg,
 		expected_type = PTR_TO_CTX;
 		if (type != expected_type)
 			goto err_type;
-		err = check_ctx_reg(env, reg, regno);
-		if (err < 0)
-			return err;
 	} else if (arg_type == ARG_PTR_TO_SOCK_COMMON) {
 		expected_type = PTR_TO_SOCK_COMMON;
 		/* Any sk pointer can be ARG_PTR_TO_SOCK_COMMON */
@@ -3644,6 +3641,10 @@ static int check_func_arg(struct bpf_verifier_env *env, u32 arg,
 				regno);
 			return -EACCES;
 		}
+	} else if (type == PTR_TO_CTX) {
+		err = check_ctx_reg(env, reg, regno);
+		if (err < 0)
+			return err;
 	}
 
 	if (reg->ref_obj_id) {
